@@ -14,7 +14,8 @@ export const Welcome: React.FC = () => {
     </View>
   );
 };
-
+// StyleSheet.createを省略可能だが、することによってオブジェクトはidで返る
+// これによってパフォーマンスの向上が見込めるので極力はやっておいた方がよい
 const styles = StyleSheet.create({
   container: {
     flex: 1,
