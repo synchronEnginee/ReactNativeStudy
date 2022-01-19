@@ -1,24 +1,20 @@
-import {useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {useUserContext} from 'contexts/UserContext';
 import React from 'react';
-import {Button} from 'react-native-elements';
-import {Welcome, Instructions, Login, TodoBoard} from 'screens';
 
-// この共通設定はNav.NavigatorのScreenOptionsへ渡す
-const HeaderRight: React.FC = () => {
-  const navigation = useNavigation();
-  return <Button type="clear" onPress={() => navigation.navigate('Login')} title="ログイン" />;
-};
+import {AuthedStackNav} from './AuthedStackNav';
+import {UnauthedStackNav} from './UnauthedStackNav';
 
-//optionのheaderTitleでヘッダー表示名指定.画面ごとの設定はoptionへ
-const nav = createStackNavigator();
+const rootNav = createStackNavigator();
 export const RootStackNav: React.FC = () => {
+  const userContext = useUserContext();
   return (
-    <nav.Navigator initialRouteName={Welcome.name} screenOptions={{headerRight: () => <HeaderRight />}}>
-      <nav.Screen name="Home" component={Welcome} options={{headerTitle: 'Welcome'}} />
-      <nav.Screen name="Login" component={Login} options={{headerTitle: 'ログイン', headerRight: undefined}} />
-      <nav.Screen name="TodoBoard" component={TodoBoard} options={{headerTitle: 'TodoBoard', headerRight: undefined}} />
-      <nav.Screen name="Instructions" component={Instructions} />
-    </nav.Navigator>
+    <rootNav.Navigator screenOptions={{headerShown: false}}>
+      {userContext.isLoggedIn ? (
+        <rootNav.Screen name="Authed" component={AuthedStackNav} />
+      ) : (
+        <rootNav.Screen name="Unauthed" component={UnauthedStackNav} />
+      )}
+    </rootNav.Navigator>
   );
 };
