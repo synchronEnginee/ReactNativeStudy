@@ -13,8 +13,10 @@ interface ContextValueType {
   isLoggedIn: boolean;
 }
 
+// {} as でContextValueType型として空の初期値を渡す
 export const UserContext = React.createContext<ContextValueType>({} as ContextValueType);
 
+// useUserContextをimportし、useUserContext()を変数に格納→変数.signupといった感じで扱える
 export const useUserContext = () => useContext(UserContext);
 
 export const UserContextProvider: React.FC = ({children}) => {
@@ -38,5 +40,6 @@ export const UserContextProvider: React.FC = ({children}) => {
     isLoggedIn: userName !== '',
   };
 
+  // ProviderのvalueでcontextValueを<UserContext.Provider>配下のコンポーネントへ渡せる
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
