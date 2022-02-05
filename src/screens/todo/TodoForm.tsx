@@ -19,6 +19,7 @@ export const TodoForm: React.FC = () => {
     [navigation],
   );
 
+  //formikライブラリはformでよく利用
   const formik = useFormik({
     initialValues: {todo: ''},
     validationSchema: Yup.object().shape({

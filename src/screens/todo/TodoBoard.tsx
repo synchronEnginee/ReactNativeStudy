@@ -1,6 +1,6 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {FilterType, TodoFilter, TodoList} from 'components/parts';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {Icon, ThemeContext} from 'react-native-elements';
 import {Todo, TodoService} from 'services';
@@ -21,23 +21,25 @@ export const TodoBoard: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filterType, setFilterType] = useState<FilterType>(FilterType.ALL);
 
-  // マウント時の処理
-  useEffect(() => {
-    // 画面破棄時にstate更新しない判断
-    let isActive = true;
+  // 最初のレンダリング時（画面にフォーカスがある場合）だけではなく、依存関係が変更された場合にも実行
+  useFocusEffect(
+    useCallback(() => {
+      // 画面破棄時にstate更新しない判断
+      let isActive = true;
 
-    TodoService.getTodos()
-      .then(response => {
-        if (isActive) {
-          setTodos(response);
-        }
-      })
-      .catch(() => {});
+      TodoService.getTodos()
+        .then(response => {
+          if (isActive) {
+            setTodos(response);
+          }
+        })
+        .catch(() => {});
 
-    return () => {
-      isActive = false;
-    };
-  }, []);
+      return () => {
+        isActive = false;
+      };
+    }, []),
+  );
 
   const toggleTodoCompletion = (id: number) => {
     const target = todos.find(todo => todo.id === id);
