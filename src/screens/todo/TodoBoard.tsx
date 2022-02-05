@@ -21,6 +21,7 @@ export const TodoBoard: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filterType, setFilterType] = useState<FilterType>(FilterType.ALL);
 
+  // マウント時の処理
   useEffect(() => {
     // 画面破棄時にstate更新しない判断
     let isActive = true;
@@ -60,6 +61,7 @@ export const TodoBoard: React.FC = () => {
 
   return (
     <View style={styles.container} testID="screen/main/home">
+      {/* TodoFilterはフィルターするボタン */}
       <TodoFilter filterType={filterType} setFilterType={setFilterType} />
       <TodoList
         todos={showTodos}
