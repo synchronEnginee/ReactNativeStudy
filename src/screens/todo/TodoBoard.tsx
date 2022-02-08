@@ -22,6 +22,8 @@ export const TodoBoard: React.FC = () => {
   const [filterType, setFilterType] = useState<FilterType>(FilterType.ALL);
   // ローディング中のstate
   const [loading, setLoading] = useState(false);
+  // Todoの状態変更中state
+  const [processingTodos, setProcessingTodos] = useState<number[]>([]);
 
   // 最初のレンダリング時（画面にフォーカスがある場合）だけではなく、依存関係が変更された場合にも実行
   useFocusEffect(
@@ -56,13 +58,20 @@ export const TodoBoard: React.FC = () => {
     if (!target) {
       return;
     }
+    // 状態変更中のstateへ
+    setProcessingTodos(prevs => [id, ...prevs]);
     TodoService.putTodo(id, !target.completed)
       .then(returnedTodo =>
         setTodos(prevTodos => {
           return prevTodos.map(todo => (todo.id === id ? returnedTodo : todo));
         }),
       )
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        setProcessingTodos(prevs => {
+          return prevs.filter(processedId => processedId !== id);
+        });
+      });
   };
 
   const removeTodo = (id: number) => {
@@ -80,6 +89,7 @@ export const TodoBoard: React.FC = () => {
         contentContainerStyle={styles.todoListContainer}
         toggleTodoCompletion={toggleTodoCompletion}
         removeTodo={removeTodo}
+        processingTodos={processingTodos}
       />
       <Icon
         name="plus"
