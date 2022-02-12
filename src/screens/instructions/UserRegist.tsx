@@ -1,23 +1,22 @@
+/**
+ * ユーザ登録画面
+ */
 import {useNavigation} from '@react-navigation/native';
-import {Logo} from 'components/basics';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 
-export const Welcome: React.FC = () => {
+// TODO：登録フォーム実装
+export const UserRegist: React.FC = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Logo />
       <Text h1>Welcome</Text>
-      <View>
-        <Button onPress={() => navigation.navigate('UserRegist')} title="登録する" />
-      </View>
+      <Button onPress={() => navigation.navigate('Welcome')} title="トップへ" />
     </View>
   );
 };
-// StyleSheet.createを省略可能だが、することによってオブジェクトはidで返る
-// これによってパフォーマンスの向上が見込めるので極力やっておいた方がよい
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
