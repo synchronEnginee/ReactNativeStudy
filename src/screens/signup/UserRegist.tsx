@@ -18,8 +18,12 @@ export const UserRegist: React.FC = () => {
   const signup = useCallback(
     (values: {name: string; password: string}) => {
       userContext.signup(values.name, values.password).then(
-        () => {},
-        () => {},
+        () => {
+          console.log(userContext.signUserName);
+        },
+        () => {
+          console.log(userContext.signPassword);
+        },
       );
     },
     [userContext],
@@ -67,7 +71,7 @@ export const UserRegist: React.FC = () => {
         />
         <Text h1>Welcome</Text>
       </View>
-      <Button onPress={() => navigation.navigate('Welcome')} title="トップへ" />
+      <Button onPress={() => navigation.goBack()} title="トップへ" />
     </KeyboardView>
   );
 };

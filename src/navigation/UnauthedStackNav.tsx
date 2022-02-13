@@ -17,7 +17,7 @@ export const UnauthedStackNav: React.FC = () => {
     <nav.Navigator initialRouteName={Welcome.name} screenOptions={{headerRight: () => <HeaderRight />}}>
       <nav.Screen name="Home" component={Welcome} options={{headerTitle: 'Welcome'}} />
       <nav.Screen name="Login" component={Login} options={{headerTitle: 'ログイン', headerRight: undefined}} />
-      <nav.Screen name="UserRegist" component={UserRegist} />
+      <nav.Screen name="UserRegist" component={UserRegist} options={{headerTitle: 'ユーザ登録'}} />
     </nav.Navigator>
   );
 };

@@ -4,8 +4,8 @@ const signup = async (userName: string, password: string) => {
   return Promise.resolve();
 };
 
-const login = async (userName: string, password: string) => {
-  return Promise.resolve();
+const login = async (userName: string, password: string, signUsername: string, signPassword: string) => {
+  return Promise.resolve([userName === signUsername && password === signPassword]);
 };
 
 const logout = async () => {

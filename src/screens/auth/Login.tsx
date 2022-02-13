@@ -11,7 +11,7 @@ export const Login: React.FC = () => {
 
   const login = useCallback(
     (values: {name: string; password: string}) => {
-      userContext.login(values.name, values.password).then(
+      userContext.login(values.name, values.password, userContext.signUserName, userContext.signPassword).then(
         () => {},
         () => {},
       );

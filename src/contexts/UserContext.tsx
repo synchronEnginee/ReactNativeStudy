@@ -7,9 +7,16 @@ export class AuthenticationFailedError {}
 
 interface ContextValueType {
   signup: (userName: string, password: string) => Promise<void | AccountConflictError>;
-  login: (userName: string, password: string) => Promise<void | AuthenticationFailedError>;
+  login: (
+    userName: string,
+    password: string,
+    signUserName: string,
+    signPassword: string,
+  ) => Promise<void | AuthenticationFailedError>;
   logout: () => Promise<void>;
   userName: string;
+  signUserName: string;
+  signPassword: string;
   isLoggedIn: boolean;
 }
 
@@ -21,15 +28,22 @@ export const useUserContext = () => useContext(UserContext);
 
 export const UserContextProvider: React.FC = ({children}) => {
   const [userName, setUserName] = useState<string>('');
+  const [signUserName, setSignUserName] = useState<string>('');
+  const [signPassword, setSignPassword] = useState<string>('');
 
   const contextValue: ContextValueType = {
     signup: async (userName, password) => {
       await AuthService.signup(userName, password);
+      setSignUserName(userName);
+      setSignPassword(password);
     },
-    login: async (userName, password) => {
-      await AuthService.login(userName, password);
+    login: async (userName, password, signUserName, signPassword) => {
+      await AuthService.login(userName, password, signUserName, signPassword).then(response => {
+        if (response[0]) {
+          setUserName(userName);
+        }
+      });
       await AuthService.refreshCsrfToken();
-      setUserName(userName);
     },
     logout: async () => {
       await AuthService.logout();
@@ -37,6 +51,8 @@ export const UserContextProvider: React.FC = ({children}) => {
       setUserName('');
     },
     userName,
+    signUserName,
+    signPassword,
     isLoggedIn: userName !== '',
   };
 

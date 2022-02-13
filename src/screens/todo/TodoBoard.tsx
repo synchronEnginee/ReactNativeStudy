@@ -31,6 +31,7 @@ export const TodoBoard: React.FC = () => {
       // 画面破棄時にstate更新しない判断
       let isActive = true;
 
+      console.log('今からTODO一覧取');
       setLoading(true);
       TodoService.getTodos()
         .then(response => {
@@ -47,6 +48,7 @@ export const TodoBoard: React.FC = () => {
           }
         });
 
+      console.log('TODO一覧取得完了');
       return () => {
         isActive = false;
       };
@@ -105,9 +107,9 @@ export const TodoBoard: React.FC = () => {
       />
       {/*ローディング中は操作できないようにロード中表示 */}
       {loading && (
-        <view style={styles.indicatorContainer}>
+        <View style={styles.indicatorContainer}>
           <ActivityIndicator color="red" style={styles.indicator} size="large" />
-        </view>
+        </View>
       )}
     </View>
   );
