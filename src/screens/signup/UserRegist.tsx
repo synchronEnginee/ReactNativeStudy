@@ -30,12 +30,12 @@ export const UserRegist: React.FC = () => {
   );
 
   //formikライブラリはform検証で便利
-  //yupライブラリでバリデーション
+  //yupライブラリでバリデーションオブジェクトをvalidationSchemaへ渡してあげる
   const formik = useFormik({
     initialValues: {name: '', password: ''},
     validationSchema: Yup.object().shape({
-      name: Yup.string().required('名前を入力してください'),
-      password: Yup.string().required('パスワードを入力してください'),
+      name: Yup.string().max(12, '12文字以内で入力してください').required('名前を入力してください'),
+      password: Yup.string().min(4, '4文字以上入力してください').required('パスワードを入力してください'),
     }),
     // ボタン押下時のみバリデーション
     validateOnChange: false,
