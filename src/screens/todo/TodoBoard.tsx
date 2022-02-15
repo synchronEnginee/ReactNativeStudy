@@ -77,7 +77,23 @@ export const TodoBoard: React.FC = () => {
   };
 
   const removeTodo = (id: number) => {
-    Alert.alert('未実装です');
+    Alert.alert(
+      '削除しますか？',
+      '削除前確認',
+      [
+        {
+          text: '消す',
+          onPress: () => {
+            TodoService.deleteTodo(id)
+              .then(response => console.log('削除完了'))
+              .catch(error => console.log(error));
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
   };
 
   const showTodos = todos.filter(showFilter[filterType]);
