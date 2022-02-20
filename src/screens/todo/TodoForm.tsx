@@ -4,30 +4,38 @@ import {useFormik} from 'formik';
 import React, {useCallback, useEffect} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {Button, Input, Text} from 'react-native-elements';
-import {TodoService} from 'services';
+// import {TodoService} from 'services';
 import * as Yup from 'yup';
 
 export const TodoForm: React.FC = () => {
   const navigation = useNavigation();
 
-  const onAdd = useCallback<(values: {todo: string}) => void>(
-    async ({todo}) => {
-      await TodoService.postTodo(todo);
-      if (navigation.isFocused()) {
-        navigation.goBack();
-      }
+  // const onAdd = useCallback<(values: {todo: string}) => void>(
+  //   async ({todo}) => {
+  //     await TodoService.postTodo(todo);
+  //     if (navigation.isFocused()) {
+  //       navigation.goBack();
+  //     }
+  //   },
+  //   [navigation],
+  // );
+  // 受け取り側で扱えるようにtype定義する
+  const todoConfirm = useCallback<(values: {todo: string}) => void>(
+    ({todo}) => {
+      navigation.navigate('TodoConfirm', {confirmTodo: todo});
     },
     [navigation],
   );
 
-  //formikライブラリはformでよく利用
+  //formikライブラリはformでよく利用.
+  //https://formik.org/docs/api/formik
   const formik = useFormik({
     initialValues: {todo: ''},
     validationSchema: Yup.object().shape({
       todo: Yup.string().required('ToDoを入力してください'),
     }),
     validateOnChange: false,
-    onSubmit: onAdd,
+    onSubmit: todoConfirm,
   });
 
   useEffect(() => {
