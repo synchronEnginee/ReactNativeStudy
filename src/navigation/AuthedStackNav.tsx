@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {MainTabNav} from 'navigation/MainTabNav';
 import React, {useCallback, useContext} from 'react';
 import {Button, ThemeContext} from 'react-native-elements';
-import {TodoForm} from 'screens';
+import {TodoForm, TodoConfirm} from 'screens';
 
 // closeButton部品
 const CloseButton: React.FC = () => {
@@ -38,6 +38,7 @@ export const AuthedStackNav: React.FC = () => {
           headerTransparent: true,
         }}
       />
+      <nav.Screen name="TodoConfirm" component={TodoConfirm} />
     </nav.Navigator>
   );
 };

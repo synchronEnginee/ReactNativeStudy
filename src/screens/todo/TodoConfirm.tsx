@@ -9,9 +9,17 @@ export type RootParam = {
   TodoConfirm: {confirmTodo: string};
 };
 
+// The action 'NAVIGATE' with payload {"name":"TodoConfirm","params":{"confirmTodo":"aaa"}} was not handled by any navigator.
+
+// Do you have a screen named 'TodoConfirm'?
+
+// If you're trying to navigate to a screen in a nested navigator, see https://reactnavigation.org/docs/nesting-navigators#navigating-to-a-screen-in-a-nested-navigator.
+
 // TODO登録確認画面.
 export const TodoConfirm: React.FC = () => {
+  // 引数からnavigationのparamを引っ張ってくる.↑の引数で貰う必要がなくなる
   const navigation = useNavigation();
+  // 引数からrouteのparamを引っ張ってくる
   const route = useRoute<RouteProp<RootParam, 'TodoConfirm'>>();
 
   const onAdd = useCallback<(confirmTodo: string) => void>(
